@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'com.swb.security'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":security-core")
+    implementation "org.springframework.session:spring-session:1.3.5.RELEASE"
+}
