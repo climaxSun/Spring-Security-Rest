@@ -1,5 +1,4 @@
 rootProject.name = 'security-gradle'
-include 'imooc-security-core'
 include 'security-app'
 include 'security-core'
 include 'security-browser'
