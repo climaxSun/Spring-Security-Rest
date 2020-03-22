@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.5.RELEASE'
+    }
+}
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+group 'com.swb.security'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+ext {
+    springBootVersion = "2.2.5.RELEASE"
+    cloudVersion = "2.2.1.RELEASE"
+    springBootMybatisVersion = "2.1.2"
+    mysqlConnector = "8.0.19"
+    springSocial = "1.1.6.RELEASE"
+    junitVersion = '4.13'
+    pagehelperVersion = '1.2.10'
+    mapperVersion = '2.1.5'
+    lombokVersion = '1.18.12'
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+}
+
+dependencies {
+    compile  "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile  "org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}"
+    compile  "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile  "org.mybatis.spring.boot:mybatis-spring-boot-starter:${springBootMybatisVersion}"
+    compile "org.springframework.cloud:spring-cloud-starter-oauth2:${cloudVersion}"
+    compile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    compile "mysql:mysql-connector-java:${mysqlConnector}"
+    compile "org.springframework.cloud:spring-cloud-starter:${cloudVersion}"
+    compile "org.springframework.social:spring-social-core:${springSocial}"
+    compile "org.springframework.social:spring-social-config:${springSocial}"
+    compile "org.springframework.social:spring-social-security:${springSocial}"
+    compile "org.springframework.social:spring-social-web:${springSocial}"
+    compile "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
+    compile "tk.mybatis:mapper-spring-boot-starter:${mapperVersion}"
+    compile "org.projectlombok:lombok:${lombokVersion}"
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

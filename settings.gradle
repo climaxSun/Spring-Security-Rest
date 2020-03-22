@@ -1,0 +1,6 @@
+rootProject.name = 'security-gradle'
+include 'security-core'
+include 'security-app'
+include 'security-browser'
+include 'security-demo'
+
