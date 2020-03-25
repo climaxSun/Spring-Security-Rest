@@ -19,7 +19,22 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springBootVersion = "2.2.5.RELEASE"
+    cloudVersion = "2.2.1.RELEASE"
+    springBootMybatisVersion = "2.1.2"
+    mysqlConnector = "8.0.19"
+    springSocial = "1.1.6.RELEASE"
+    junitVersion = '4.13'
+    pagehelperVersion = '1.2.10'
+    mapperVersion = '2.1.5'
+    lombokVersion = '1.18.12'
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+}
+
 dependencies {
     implementation project(":security-core")
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
