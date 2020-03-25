@@ -7,8 +7,10 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +20,10 @@ import java.util.List;
  * 文件  UserController
  */
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
-    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    @GetMapping
     @JsonView(User.UserSimpleView.class)
     public List<User> queryUser(UserQueryCondition queryCondition,
                                 @PageableDefault Pageable pageable){
@@ -33,7 +36,7 @@ public class UserController {
         return list;
     }
 
-    @GetMapping(value = "/user/{id:\\d+}")
+    @GetMapping(value = "/{id:\\d+}")
     @JsonView(User.UserDetailView.class)
     public User getUserInfo(@PathVariable(name ="id") String id){
         User user = new User();
@@ -42,5 +45,13 @@ public class UserController {
         user.setAge(51);
         return user;
     }
+
+    @PostMapping
+    @JsonView(User.UserDetailView.class)
+    public User create(@Valid @RequestBody User user ){
+        user.setId("1");
+        return user;
+    }
+
 
 }

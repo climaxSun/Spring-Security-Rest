@@ -14,6 +14,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Date;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 /**
  * @author swb
  * 时间  2020-03-24 21:20
@@ -65,5 +71,20 @@ public class UserControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/user/a")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
+    public void whenCreateUser() throws Exception {
+        Date date=new Date();
+        System.out.println(date.getTime());
+        String content = "{\"username\":\"冴岛雷牙\",\"password\":1234567489,\"birthday\":"+date.getTime()+"}";
+        MockHttpServletResponse response = mvc.perform(post("/user").contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(content))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"))
+                .andReturn().getResponse();
+        response.setCharacterEncoding("UTF-8");
+        System.out.println("TestResponse="+response.getContentAsString());
+
     }
 }
