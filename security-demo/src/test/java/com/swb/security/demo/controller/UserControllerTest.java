@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -14,8 +15,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,7 +48,7 @@ public class UserControllerTest {
     @Test
     public void whenQuerySuccess() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user")
-                .param("username","冴岛钢牙")
+                .param("username", "冴岛钢牙")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 //对上面请求结果的期望， 希望返回状态码是200
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -75,16 +78,25 @@ public class UserControllerTest {
 
     @Test
     public void whenCreateUser() throws Exception {
-        Date date=new Date();
+        Date date = new Date();
         System.out.println(date.getTime());
-        String content = "{\"username\":\"冴岛雷牙\",\"password\":1234567489,\"birthday\":"+date.getTime()+"}";
+        String content = "{\"username\":\"冴岛雷牙\",\"password\":1234567489,\"birthday\":" + date.getTime() + "}";
         MockHttpServletResponse response = mvc.perform(post("/user").contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andReturn().getResponse();
         response.setCharacterEncoding("UTF-8");
-        System.out.println("TestResponse="+response.getContentAsString());
+        System.out.println("TestResponse=" + response.getContentAsString());
 
+    }
+
+    @Test
+    public void whenUploadSuccess() throws Exception {
+        String result = mvc.perform(fileUpload("/files")
+                .file(new MockMultipartFile("file", "test.txt", "multipart/form-data", "hello upload".getBytes(StandardCharsets.UTF_8))))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(result);
     }
 }

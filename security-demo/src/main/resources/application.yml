@@ -6,6 +6,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   session:
     store-type: none
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 server:
   port: 8080
 mapper:
@@ -23,3 +27,7 @@ logging:
       weige:
         springboot:
           mapper: debug
+  file:
+    name: ./security-demo/out/log/demo.log
+    max-size: 5MB
+filePath: D:/MY/IDEA/security-gradle/security-demo/out/file/

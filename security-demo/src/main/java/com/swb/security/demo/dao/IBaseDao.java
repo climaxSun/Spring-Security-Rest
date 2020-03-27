@@ -8,5 +8,5 @@ import tk.mybatis.mapper.common.MySqlMapper;
  * 时间  2020-03-22 22:41
  * 文件  IBaseDao
  */
-public interface IBaseDao<T>  extends Mapper<T>, MySqlMapper<T> {
+public interface IBaseDao<T> extends Mapper<T>, MySqlMapper<T> {
 }

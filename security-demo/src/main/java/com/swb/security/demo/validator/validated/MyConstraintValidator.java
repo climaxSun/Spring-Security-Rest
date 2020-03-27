@@ -1,8 +1,7 @@
 package com.swb.security.demo.validator.validated;
 
 import com.swb.security.demo.validator.MyValidatorAnnotation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -12,8 +11,8 @@ import javax.validation.ConstraintValidatorContext;
  * 时间  2020-03-25 22:53
  * 文件  MyConstraintValidator
  */
-
-public class MyConstraintValidator implements ConstraintValidator<MyValidatorAnnotation,String> {
+@Slf4j
+public class MyConstraintValidator implements ConstraintValidator<MyValidatorAnnotation, String> {
 
     //可以直接使用 @Autowired 注解，而不需要在类上加  @Component
 
@@ -21,21 +20,23 @@ public class MyConstraintValidator implements ConstraintValidator<MyValidatorAnn
 
     @Override
     public void initialize(MyValidatorAnnotation constraintAnnotation) {
-        System.out.println("自定义注解校验类开始初始化");
+        log.info("MyConstraintValidator.initialize");
+        log.info("自定义注解校验类开始初始化");
         //这里获取注解的信息  例如Range的min， max。在本类中添加相关的字段max,min，然后获取constraintAnnotation信息，赋值
-        prefix=constraintAnnotation.prefix();
+        prefix = constraintAnnotation.prefix();
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        System.out.println("自定义注解开始校验");
+        log.info("MyConstraintValidator.isValid");
+        log.info("自定义注解开始校验");
         System.out.println(value);
-        if("".equals(prefix)){
+        if ("".equals(prefix)) {
             return true;
         }
-        if(value==null ||"".equals(value)){
+        if (value == null || "".equals(value)) {
             return false;
         }
-        return value.indexOf(prefix)==0;
+        return value.indexOf(prefix) == 0;
     }
 }

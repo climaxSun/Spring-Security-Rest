@@ -14,6 +14,7 @@ group 'com.swb.security'
 version '1.0.0'
 
 sourceCompatibility = 1.8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
@@ -29,8 +30,6 @@ ext {
     pagehelperVersion = '1.2.10'
     mapperVersion = '2.1.5'
     lombokVersion = '1.18.12'
-    compileJava.options.encoding = 'UTF-8'
-    compileTestJava.options.encoding = 'UTF-8'
 }
 
 dependencies {

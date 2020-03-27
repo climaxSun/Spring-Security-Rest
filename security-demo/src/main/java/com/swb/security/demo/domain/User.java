@@ -21,28 +21,26 @@ import java.util.Date;
 @AllArgsConstructor
 public class User {
 
-    public interface UserSimpleView{}
-    public interface UserDetailView extends  UserSimpleView{}
-
     @JsonView(UserSimpleView.class)
     private String id;
-
     @MyValidatorAnnotation
     @JsonView(UserSimpleView.class)
     private String username;
-
     @NotBlank(message = "密码不能为空")
     @JsonView(UserDetailView.class)
     private String password;
-
     @JsonView(UserSimpleView.class)
-    @Range(max=100,min = 10,message = "年龄不在10-100之内")
+    @Range(max = 100, min = 10, message = "年龄不在10-100之内")
     private int age;
-
     @JsonView(UserSimpleView.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss sss")
     private Date birthday;
 
+    public interface UserSimpleView {
+    }
+
+    public interface UserDetailView extends UserSimpleView {
+    }
 
 
 }
