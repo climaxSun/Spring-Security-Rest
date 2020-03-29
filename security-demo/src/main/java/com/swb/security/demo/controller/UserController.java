@@ -6,8 +6,6 @@ import com.swb.security.demo.domain.UserQueryCondition;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +28,6 @@ public class UserController {
     @JsonView(User.UserSimpleView.class)
     public List<User> queryUser(UserQueryCondition queryCondition,
                                 @PageableDefault Pageable pageable) {
-        System.out.println(ReflectionToStringBuilder.toString(queryCondition, ToStringStyle.MULTI_LINE_STYLE));
 
         List<User> list = new ArrayList<>();
         list.add(new User());

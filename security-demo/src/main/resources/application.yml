@@ -31,3 +31,5 @@ logging:
     name: ./security-demo/out/log/demo.log
     max-size: 5MB
 filePath: D:/MY/IDEA/security-gradle/security-demo/out/file/
+swb.security.browser.loginPage: /demoLogin.html
+swb.security.browser.loginType: REDIRECT

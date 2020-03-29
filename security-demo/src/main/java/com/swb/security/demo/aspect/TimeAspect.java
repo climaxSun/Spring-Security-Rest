@@ -32,13 +32,10 @@ public class TimeAspect {
         log.info("TimeAspect.handleControllerMethod");
         Object[] args = pjp.getArgs();
         for (Object arg : args) {
-            System.out.println(arg);
+
         }
-        log.info("============================");
         //controller方法返回的对象
         Object o = pjp.proceed();
-        log.info("============================");
-        System.out.println(o);
         return o;
     }
 }

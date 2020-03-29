@@ -25,9 +25,6 @@ public class FileController {
     @PostMapping
     public FileInfo fileUpload(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
 
-        System.out.println(file.getName());
-        System.out.println(file.getOriginalFilename());
-        System.out.println(file.getSize());
         String fileName = System.currentTimeMillis() + ".txt";
         File loadFile = new File(filePath, fileName);
         file.transferTo(loadFile);

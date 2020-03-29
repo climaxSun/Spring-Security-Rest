@@ -3,12 +3,12 @@ buildscript {
         maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
         mavenCentral()
     }
-    dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.5.RELEASE'
-    }
+//    dependencies {
+//        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.5.RELEASE'
+//    }
 }
 apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
+//apply plugin: 'org.springframework.boot'
 
 group 'com.swb.security'
 version '1.0.0'
