@@ -38,7 +38,8 @@ public class SecurityAuthenticationSuccessHandler extends SavedRequestAwareAuthe
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        log.info("SecurityAuthenticationSuccessHandler.onAuthenticationSuccess:登录成功");
+        log.info("SecurityAuthenticationSuccessHandler.onAuthenticationSuccess");
+        log.info(authentication.getName()+"登录成功");
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             //将authentication转化为json返回
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);

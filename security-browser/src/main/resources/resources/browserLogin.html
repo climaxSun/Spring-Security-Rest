@@ -16,9 +16,14 @@
         <label for="password" class="col-form-label">密码</label>
         <input type="password" class="form-control" id="password" name="password" maxlength="30" placeholder="请输入密码" >
     </div>
-    <!--<div class="form-group col-md-5">-->
-        <!--<input type="checkbox" name="remember-me"> 记住我-->
-    <!--</div>-->
+    <div class="form-group col-md-5">
+        <label for="password" class="col-form-label">图形验证码</label>
+        <input type="password" class="form-control" id="imageCode" name="imageCode" placeholder="请输入密码" >
+        <img src="/code/image?width=200">
+    </div>
+    <div class="form-group col-md-5">
+        <input type="checkbox" name="remember-me"> 记住我
+    </div>
     <div class="form-group col-md-5">
         <button type="submit" class="btn btn-primary">登录</button>
     </div>

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * 时间  2020-03-29 16:00
  * 文件  MyUserDetailsService
  */
-@Component
+@Component(value = "myUserDetailsService")
 @Slf4j
 public class MyUserDetailsService implements UserDetailsService {
 
