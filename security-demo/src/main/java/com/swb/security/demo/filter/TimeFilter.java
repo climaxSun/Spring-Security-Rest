@@ -1,6 +1,7 @@
 package com.swb.security.demo.filter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -23,6 +24,8 @@ public class TimeFilter implements Filter {
         log.info("TimeFilter.doFilter");
         log.info("start");
         long startTime = System.currentTimeMillis();
+        String width= ServletRequestUtils.getStringParameter(request,"width","默认值");
+        System.out.println(width);
         chain.doFilter(request, response);
         log.info("filter time:" + (System.currentTimeMillis() - startTime) + "ms");
         log.info("end");

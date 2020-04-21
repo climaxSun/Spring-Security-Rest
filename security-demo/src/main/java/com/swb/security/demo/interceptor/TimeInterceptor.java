@@ -2,6 +2,7 @@ package com.swb.security.demo.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,6 +28,8 @@ public class TimeInterceptor implements HandlerInterceptor {
         log.info(((HandlerMethod) handler).getBean().getClass().getName());
         //获取方法
         log.info(((HandlerMethod) handler).getMethod().getName());
+        String width= ServletRequestUtils.getStringParameter(request,"width","默认值");
+        System.out.println(width);
         request.setAttribute("startTime", System.currentTimeMillis());
         return true;
     }

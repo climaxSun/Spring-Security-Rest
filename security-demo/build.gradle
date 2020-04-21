@@ -27,14 +27,16 @@ ext {
     mapperVersion = '2.1.5'
     lombokVersion = '1.18.12'
     springfoxVersion='2.9.2'
+    poiVersion='4.1.2'
 }
 
 dependencies {
     compile project(":security-browser")
-    compile  "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
-    compile  "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
     compile group: 'io.springfox', name: 'springfox-swagger2', version: "${springfoxVersion}"
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${springfoxVersion}"
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: "${poiVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testCompile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.26.3'
     testCompile group: 'junit', name: 'junit', version: '4.12'

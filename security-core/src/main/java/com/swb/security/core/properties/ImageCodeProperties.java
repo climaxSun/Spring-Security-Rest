@@ -8,11 +8,11 @@ import lombok.Data;
  * 文件  ImageCodeProperties
  */
 @Data
-public class ImageCodeProperties {
+public class ImageCodeProperties extends SmsCodeProperties {
     private int width=200;
     private int height=100;
-    private int length=4;
     private int interfereCount=20;
-    private int expireIn=600;
-    private String url;
+    public ImageCodeProperties(){
+        setLength(4);
+    }
 }

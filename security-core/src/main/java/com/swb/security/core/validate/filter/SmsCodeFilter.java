@@ -4,6 +4,7 @@ import com.swb.security.core.properties.SecurityProperties;
 import com.swb.security.core.validate.AppConst;
 import com.swb.security.core.validate.ValidateCodeException;
 import com.swb.security.core.validate.code.ImageCode;
+import com.swb.security.core.validate.code.ValidateCode;
 import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -16,12 +17,10 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,7 +32,7 @@ import java.util.stream.Stream;
  * 文件  ValidateCodeFilter
  */
 @Data
-public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
+public class SmsCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
     private AuthenticationFailureHandler authenticationFailureHandler;
 
@@ -72,20 +71,24 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     }
 
     private void validate(ServletWebRequest request) {
-        ImageCode codeSession = (ImageCode) sessionStrategy.getAttribute(request, AppConst.IMAGE_CODE);
-        String codeRequest = ServletRequestUtils.getStringParameter(request.getRequest(), AppConst.IMAGE_CODE_NAME, "");
+        ValidateCode codeSession = (ValidateCode) sessionStrategy.getAttribute(request, AppConst.SMS_CODE);
+        String codeRequest = ServletRequestUtils.getStringParameter(request.getRequest(), AppConst.SMS_CODE_NAME, "");
+        String mobile = ServletRequestUtils.getStringParameter(request.getRequest(), AppConst.MOBILE_NAME, "");
         if (codeRequest.isEmpty()) {
-            throw new ValidateCodeException("验证码不能为空");
+            throw new ValidateCodeException("短信验证码不能为空");
+        }
+        if (mobile.isEmpty()) {
+            throw new ValidateCodeException("手机号不能为空");
         }
         if (codeSession == null) {
-            throw new ValidateCodeException("验证码不存在");
+            throw new ValidateCodeException("短信验证码不存在");
         }
         if (codeSession.isExpried()) {
-            throw new ValidateCodeException("验证码已过期");
+            throw new ValidateCodeException("短信验证码已过期");
         }
-        if (!codeSession.verify(codeRequest)) {
-            throw new ValidateCodeException("验证码错误");
+        if (!codeSession.verify(codeRequest,mobile)) {
+            throw new ValidateCodeException("短信验证码错误");
         }
-        sessionStrategy.removeAttribute(request, AppConst.IMAGE_CODE);
+        sessionStrategy.removeAttribute(request, AppConst.SMS_CODE);
     }
 }

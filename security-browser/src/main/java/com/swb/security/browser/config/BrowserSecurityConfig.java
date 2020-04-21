@@ -1,21 +1,22 @@
 package com.swb.security.browser.config;
 
+import com.swb.security.core.authentication.AbstractChannelSecurityConfig;
+import com.swb.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.swb.security.core.properties.SecurityConstants;
 import com.swb.security.core.properties.SecurityProperties;
+import com.swb.security.core.validate.filter.SmsCodeFilter;
 import com.swb.security.core.validate.filter.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -28,7 +29,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @Slf4j
-public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -42,6 +43,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationFailureHandler failureHandler;
 
     @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
     private DataSource dataSource;
 
     @Autowired
@@ -51,20 +55,18 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         log.info("BrowserSecurityConfig.configure");
-        ValidateCodeFilter filter=new ValidateCodeFilter();
-        filter.setAuthenticationFailureHandler(failureHandler);
-        filter.setSecurityProperties(securityProperties);
-        filter.afterPropertiesSet();
+        applyPasswordAuthenticationConfig(http);
+        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        validateCodeFilter.setAuthenticationFailureHandler(failureHandler);
+        validateCodeFilter.setSecurityProperties(securityProperties);
+        validateCodeFilter.afterPropertiesSet();
+
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        smsCodeFilter.setAuthenticationFailureHandler(failureHandler);
+        smsCodeFilter.setSecurityProperties(securityProperties);
+        smsCodeFilter.afterPropertiesSet();
 //      指定身份认证的方式 表单登录
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class).formLogin()
-                //指定登录页面
-                .loginPage("/authentication/require")
-                //自定义登录请求路径,默认是post方式的login
-                .loginProcessingUrl("/authentication/form")
-                //登录成功自定义处理注入
-                .successHandler(successHandler)
-                //登录失败自定义处理注入
-                .failureHandler(failureHandler)
+        http.apply(smsCodeAuthenticationSecurityConfig)
                 //配置记住我
                 .and().rememberMe()
                 .tokenRepository(persistentTokenRepository())
@@ -76,16 +78,18 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 //                开始请求权限配置
                 .authorizeRequests()
                 //当前路径不需要认证
-                .antMatchers("/authentication/require",
-                        "/code/image",
-                        "/browserLogin.html",
+                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                        SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
+                        SecurityConstants.DEFAULT_LOGIN_PAGE_URL,
                         securityProperties.getBrowser().getLoginPage())
                 .permitAll()
 //                下面2行是对http所有的请求必须通过授权认证才可以访问
 //                对任何请求
                 .anyRequest()
 //                都需要身份验证
-                .authenticated().and().csrf().disable();
+                .authenticated()
+                .and().csrf().disable();
     }
 
     @Bean
@@ -95,8 +99,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PersistentTokenRepository persistentTokenRepository(){
-        JdbcTokenRepositoryImpl jdbcTokenRepository=new JdbcTokenRepositoryImpl();
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
     }

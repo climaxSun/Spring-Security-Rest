@@ -1,14 +1,20 @@
 package com.swb.security.demo.config;
 
+import com.swb.security.demo.filter.TimeFilter;
 import com.swb.security.demo.interceptor.TimeInterceptor;
 import com.swb.security.demo.interceptor.TimeInterceptor2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author swb
@@ -46,17 +52,17 @@ public class WebConfig implements WebMvcConfigurer {
                 addResourceLocations("file:" + filePath);
     }
 
-//    @Bean
-//    public FilterRegistrationBean timeFilter(){
-//        FilterRegistrationBean bean=new FilterRegistrationBean();
-//
-//        TimeFilter filter=new TimeFilter();
-//        bean.setFilter(filter);
-//
-//        //过滤路径 多个
-//        List<String> urls=new ArrayList<>();
-//        urls.add("/user/*");
-//        bean.setUrlPatterns(urls);
-//        return bean;
-//    }
+    @Bean
+    public FilterRegistrationBean timeFilter(){
+        FilterRegistrationBean bean=new FilterRegistrationBean();
+
+        TimeFilter filter=new TimeFilter();
+        bean.setFilter(filter);
+
+        //过滤路径 多个
+        List<String> urls=new ArrayList<>();
+        urls.add("/user");
+        bean.setUrlPatterns(urls);
+        return bean;
+    }
 }

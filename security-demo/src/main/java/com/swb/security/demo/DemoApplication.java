@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import tk.mybatis.spring.annotation.MapperScan;
+
 
 /**
  * @author swb
@@ -14,6 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication()
 @RestController
 @EnableSwagger2
+@MapperScan("com.swb.security.demo.mapper")
 public class DemoApplication {
 
     public static void main(String[] args) {

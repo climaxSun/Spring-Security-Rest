@@ -1,4 +1,4 @@
-package com.swb.security.core.validate.exception;
+package com.swb.security.core.validate;
 
 import org.springframework.security.core.AuthenticationException;
 
