@@ -1,7 +1,11 @@
 package com.swb.security.demo.service;
 
+import com.swb.security.demo.entity.Rider;
 import com.swb.security.demo.entity.Test;
+
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Test)表服务接口
@@ -12,12 +16,20 @@ import java.util.List;
 public interface TestService {
 
     /**
+     * 通过ID查询单条Test数据
+     *
+     * @param id 主键
+     * @return 实例对象
+     */
+    Test queryTestById(Integer id);
+
+    /**
      * 通过ID查询单条数据
      *
      * @param id 主键
      * @return 实例对象
      */
-    Test queryById(Integer id);
+    Rider queryRiderById(Integer id);
 
     /**
      * 查询多条数据
@@ -34,7 +46,23 @@ public interface TestService {
      * @param test 实例对象
      * @return 实例对象
      */
-    Test insert(Test test);
+    Test insertTest(Test test);
+
+    /**
+     * 新增数据
+     *
+     * @param rider 实例对象
+     * @return 实例对象
+     */
+    Rider insertRider(Rider rider);
+
+    /**
+     * 新增数据
+     *
+     * @param test 实例对象
+     * @return 实例对象
+     */
+    Rider insert(Rider test);
 
     /**
      * 修改数据
@@ -51,5 +79,12 @@ public interface TestService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+    Map<String,Object> testThread(Integer id);
+
+    Map<String,Object> testNoThread(Integer id);
+
+
+    List<Test> selectTestByDate(LocalDateTime dateTime);
 
 }

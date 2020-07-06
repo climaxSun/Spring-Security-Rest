@@ -50,4 +50,7 @@ public interface SecurityConstants {
 	 */
 	public static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
 
+	public static final String FILE_TEST = "/files/**";
+	public static final String TEST = "/test/**";
+
 }

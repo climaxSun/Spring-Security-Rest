@@ -82,6 +82,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
                         SecurityConstants.DEFAULT_LOGIN_PAGE_URL,
+                        SecurityConstants.FILE_TEST,
+                        SecurityConstants.TEST,
                         securityProperties.getBrowser().getLoginPage())
                 .permitAll()
 //                下面2行是对http所有的请求必须通过授权认证才可以访问

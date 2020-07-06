@@ -11,11 +11,14 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 server:
-  port: 8080
+  port: 8081
 mapper:
   #公用接口类路径,不能与
-  mappers: com.swb.security.demo.dao.IBaseDao
+  mappers: com.swb.security.demo.dao.MyMapper
   identity: MYSQL
+mybatis:
+  type-aliases-package: com.swb.security.demo.entity
+  mapper-locations: classpath:mapper/*.xml
 pagehelper:
   helper-dialect: mysql
   reasonable: true
@@ -24,12 +27,20 @@ pagehelper:
 logging:
   level:
     com:
-      weige:
-        springboot:
-          mapper: debug
+      swb:
+        security:
+          demo:
+            mapper: debug
   file:
     name: ./security-demo/out/log/demo.log
     max-size: 5MB
 filePath: D:/MY/IDEA/security-gradle/security-demo/out/file/
-swb.security.browser.loginPage: /demoLogin.html
-swb.security.browser.loginType: REDIRECT
+#swb:
+#  security:
+#    browser:
+#      loginType: JSON
+#    validateCode:
+#      imageCode:
+#        length: 5
+#        width: 300
+#        url: /user/*
