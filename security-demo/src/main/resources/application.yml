@@ -1,8 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/SecurityDemo?serverTimezone=Shanghai&useUnicode=yes&characterEncoding=UTF-8&useSSL=false
-    username:
-    password:
+    url: jdbc:mysql://rm-bp196027c6l4cnh7vho.mysql.rds.aliyuncs.com:3306/SecurityDemo?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+#    url: jdbc:mysql://localhost:3306/SecurityDemo?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    username: swb
+#    username: root
+    password: Qaz840068536
+#    password: swb1027495836
     driver-class-name: com.mysql.cj.jdbc.Driver
   session:
     store-type: none
@@ -12,6 +15,9 @@ spring:
       max-request-size: 100MB
 server:
   port: 8081
+  servlet:
+    session:
+      timeout: 30M
 mapper:
   #公用接口类路径,不能与
   mappers: com.swb.security.demo.dao.MyMapper

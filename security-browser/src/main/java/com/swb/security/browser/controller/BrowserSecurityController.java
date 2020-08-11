@@ -77,4 +77,11 @@ public class BrowserSecurityController {
     public Object getCurrentUser2(@AuthenticationPrincipal UserDetails user){
         return user;
     }
+
+    @GetMapping("/session/invalid")
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public SimpleResponse sessionInvalid(){
+        String message="session失效，用户已过期";
+        return new SimpleResponse(message);
+    }
 }

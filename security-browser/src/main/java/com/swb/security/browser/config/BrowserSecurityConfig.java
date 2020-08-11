@@ -1,5 +1,6 @@
 package com.swb.security.browser.config;
 
+import com.swb.security.browser.strategy.BrowserSecuritySessionExpiredStrategy;
 import com.swb.security.core.authentication.AbstractChannelSecurityConfig;
 import com.swb.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.swb.security.core.properties.SecurityConstants;
@@ -75,13 +76,23 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 //        basic方式认证
 //        http.httpBasic()
                 .and()
+                .sessionManagement()
+                .invalidSessionUrl(SecurityConstants.DEFAULT_SESSION_INVALID_URL)
+                //最大数量
+                .maximumSessions(1)
+                //达到最大登录数时，不允许登录
+                .maxSessionsPreventsLogin(true)
+                .expiredSessionStrategy(new BrowserSecuritySessionExpiredStrategy())
+                .and()
+                .and()
 //                开始请求权限配置
                 .authorizeRequests()
                 //当前路径不需要认证
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
                         SecurityConstants.DEFAULT_LOGIN_PAGE_URL,
+                        SecurityConstants.DEFAULT_SESSION_INVALID_URL,
                         SecurityConstants.FILE_TEST,
                         SecurityConstants.TEST,
                         securityProperties.getBrowser().getLoginPage())
