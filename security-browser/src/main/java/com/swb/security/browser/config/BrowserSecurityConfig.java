@@ -1,5 +1,6 @@
 package com.swb.security.browser.config;
 
+import com.swb.security.browser.logout.BrowserLogoutSuccessHandler;
 import com.swb.security.browser.strategy.BrowserSecuritySessionExpiredStrategy;
 import com.swb.security.core.authentication.AbstractChannelSecurityConfig;
 import com.swb.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -53,6 +55,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Qualifier("myUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         log.info("BrowserSecurityConfig.configure");
@@ -84,6 +89,18 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .maxSessionsPreventsLogin(true)
                 .expiredSessionStrategy(new BrowserSecuritySessionExpiredStrategy())
                 .and()
+                .and()
+                //退出
+                .logout()
+                //指定退出的路径
+//                .logoutUrl("/signOut")
+                //退出成功后跳转的url
+//                .logoutSuccessUrl(SecurityConstants.DEFAULT_LOGIN_PAGE_URL)
+                //指定退出成功的处理
+                .logoutSuccessHandler(logoutSuccessHandler)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID","SESSION")
+                .permitAll()
                 .and()
 //                开始请求权限配置
                 .authorizeRequests()

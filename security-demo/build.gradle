@@ -33,7 +33,6 @@ ext {
 dependencies {
     compile project(":security-browser")
     compile "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
     compile group: 'io.springfox', name: 'springfox-swagger2', version: "${springfoxVersion}"
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${springfoxVersion}"
     compile group: 'org.apache.poi', name: 'poi-ooxml', version: "${poiVersion}"

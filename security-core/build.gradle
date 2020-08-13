@@ -43,7 +43,7 @@ dependencies {
     compile  "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
     compile  "tk.mybatis:mapper-spring-boot-starter:${mapperVersion}"
     compile  "org.projectlombok:lombok:${lombokVersion}"
-    compile 'cn.hutool:hutool-all:5.2.5'
+    compile 'cn.hutool:hutool-all:5.3.10'
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
