@@ -35,7 +35,7 @@ ext {
 dependencies {
     compile project(":security-core")
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    compile "org.springframework.session:spring-session-core:2.3.0.RELEASE"
-    compile "org.springframework.session:spring-session-data-redis:2.3.0.RELEASE"
+    compile "org.springframework.session:spring-session-core:2.2.2.RELEASE"
+    compile "org.springframework.session:spring-session-data-redis:2.2.2.RELEASE"
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

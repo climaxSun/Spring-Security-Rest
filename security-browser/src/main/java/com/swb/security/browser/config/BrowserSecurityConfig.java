@@ -99,8 +99,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 //指定退出成功的处理
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID","SESSION")
-                .permitAll()
+                .deleteCookies("JSESSIONID", "SESSION")
                 .and()
 //                开始请求权限配置
                 .authorizeRequests()

@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.swb.security.browser.support.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,10 @@ public class MyBrowserLogoutSuccessHandler implements LogoutSuccessHandler {
         log.info("MyBrowserLogoutSuccessHandler.onLogoutSuccess");
         log.info("退出登录");
         log.info(JSONUtil.toJsonStr(authentication));
+        UsernamePasswordAuthenticationToken token=(UsernamePasswordAuthenticationToken)authentication;
+//        token.setAuthenticated(false);
+//        token.setDetails(null);
+        token.eraseCredentials();
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(JSONUtil.toJsonStr(new SimpleResponse("退出登录")));
     }
